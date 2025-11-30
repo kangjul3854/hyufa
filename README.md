@@ -30,7 +30,7 @@
 
 ## 💡 주요 기능
 - 금융 기초 상담 및 용어 안내  
-- 투자 성향 분석 후 포트폴리오 추천 (적금, ETF 등)  
+- 투자 성향 분석 후 포트폴리오 추천 (예금, ETF 등)  
 - 적금·대출 계산기  
 - 사용자 피드백 및 의견 수집  
 
@@ -46,15 +46,18 @@
 
 <div align="center">
 
-<a href="https://kangjul3854.github.io/hyufa/hyufa13.html" target="_blank">
-  <img src="https://img.shields.io/badge/HYUFA_실행하기-0E4A84?style=for-the-badge&logo=googlechrome&logoColor=white&labelColor=0E4A84&color=1E63B4" alt="HYUFA 실행하기 버튼">
+<a href="https://kangjul3854.github.io/hyufa/hyufa13.html" target="_blank" style="text-decoration: none;">
+  <img src="https://img.shields.io/badge/💙%20HYUFA_실행하기-0E4A84?style=for-the-badge&logo=googlechrome&logoColor=white&labelColor=0E4A84&color=1E63B4" alt="HYUFA 실행 버튼">
 </a>
 
 <br><br>
 
-🎓 **한양대학교 AI 금융 비서 HYUFA**  
-💬 지금 바로 웹에서 만나보세요!
+<p><b>🎓 한양대학교 AI 금융 비서 HYUFA</b><br>
+지금 바로 웹에서 만나보세요!</p>
+
 </div>
 
+---
 
-
+⭐️ 이 프로젝트가 마음에 든다면,  
+**Star**를 눌러 HYUFA를 응원해주세요!
