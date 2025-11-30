@@ -47,11 +47,12 @@
 <div align="center">
 
 <a href="https://kangjul3854.github.io/hyufa/hyufa13.html" target="_blank">
-  <img src="https://img.shields.io/badge/HYUFA_실행하기-0E4A84?style=for-the-badge&logo=github&logoColor=white&labelColor=0E4A84&color=7DB928">
+  <img src="https://img.shields.io/badge/💙%20HYUFA_실행하기-0E4A84?style=for-the-badge&logo=googlechrome&logoColor=white&labelColor=0E4A84&color=003366">
 </a>
 
 <br><br>
 
-✨ 클릭하면 HYUFA 웹 서비스로 이동합니다 ✨  
+🎓 **한양대학교 AI 금융 비서 HYUFA**  
+지금 바로 웹에서 만나보세요!
 </div>
 
