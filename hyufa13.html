@@ -864,6 +864,21 @@
             }
 
             formDiv.innerHTML = formHtml;
+
+        // 👉 매월 납입액 입력값에 자동 콤마 적용
+        const monthlyInput = document.getElementById("goal-input-monthly");
+        if (monthlyInput) {
+            monthlyInput.addEventListener("input", (e) => {
+                let value = e.target.value.replace(/,/g, "");
+                if (value === "") {
+                    e.target.value = "";
+                    return;
+                }
+                if (!isNaN(value)) {
+                    e.target.value = Number(value).toLocaleString();
+                }
+            });
+        }
         }
 
         /**
@@ -1630,3 +1645,4 @@
     </script>
 </body>
 </html>
+
