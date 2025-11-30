@@ -39,3 +39,12 @@
 ## 🧠 비고
 본 서비스는 상용 AI가 아닌 **프롬프트 기반 챗봇 프로토타입**으로,  
 사용자 경험 검증 및 서비스 콘셉트 제시 목적입니다.
+
+---
+
+## 🚀 HYUFA 실행하기
+<p align="center">
+  <a href="https://kangjul3854.github.io/hyufa/hyufa13.html" target="_blank" style="text-decoration:none;">
+    <img src="https://img.shields.io/badge/🔗%20HYUFA%20실행하기-0E4A84?style=for-the-badge&logo=githubpages&logoColor=white">
+  </a>
+</p>
