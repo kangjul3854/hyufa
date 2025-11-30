@@ -1,14 +1,89 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=hyufa13.html">
-    <title>HYUFA 이동 중...</title>
-  </head>
-  <body>
-    <p>HYUFA 페이지로 이동 중입니다. 잠시만 기다려주세요...</p>
-    <script>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="2; url=hyufa13.html">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HYUFA | HYU Finance Assistant</title>
+  <style>
+    body {
+      font-family: "Pretendard", "Noto Sans KR", sans-serif;
+      background-color: #0E4A84;
+      color: white;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.8em;
+      margin-bottom: 10px;
+      animation: fadeIn 1.2s ease-out forwards;
+    }
+
+    p {
+      font-size: 1.1em;
+      margin-top: 0;
+      color: #dce9f5;
+      animation: fadeIn 1.8s ease-out forwards;
+    }
+
+    .loader {
+      margin-top: 40px;
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-top: 4px solid #fff;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+
+    .btn {
+      margin-top: 40px;
+      display: inline-block;
+      background-color: white;
+      color: #0E4A84;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: bold;
+      text-decoration: none;
+      transition: 0.3s;
+      animation: fadeIn 2.2s ease-out forwards;
+    }
+
+    .btn:hover {
+      background-color: #dce9f5;
+      transform: translateY(-2px);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <h1>💙 HYUFA</h1>
+  <p>한양대학교 학생을 위한 AI 금융 비서 서비스<br>잠시 후 자동으로 이동합니다...</p>
+  <div class="loader"></div>
+
+  <a href="hyufa13.html" class="btn">직접 이동하기 🔗</a>
+
+  <script>
+    setTimeout(function() {
       window.location.href = "hyufa13.html";
-    </script>
-  </body>
+    }, 2000);
+  </script>
+</body>
 </html>
