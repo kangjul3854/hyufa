@@ -591,17 +591,24 @@
                 <div class="flex flex-col flex-grow bg-white">
                     <div id="chat-history" class="flex-grow p-4 overflow-y-auto bg-gray-50 min-h-0"></div>
 
-                    <div class="border-t bg-white flex items-center p-3 sticky bottom-0 z-10 safe-bottom" style="padding-bottom: env(safe-area-inset-bottom);">
-
-
-                         <button onclick="setAppState('MENU')" class="text-hyu-blue text-3xl mr-3 hover:opacity-75 transition">
+                    <div class="border-t bg-white flex items-center gap-2 px-3 py-3 sticky bottom-0 z-10 safe-bottom"
+                        style="padding-bottom: calc(env(safe-area-inset-bottom) + 4px);">
+                        
+                        <button onclick="setAppState('MENU')" 
+                                class="flex-shrink-0 text-hyu-blue text-3xl hover:opacity-75 transition">
                             <i class="fa-solid fa-circle-plus"></i>
                         </button>
-                        <input id="chat-input" type="text" placeholder="궁금한 사항을 입력해주세요." class="flex-grow p-3 border border-gray-300 rounded-full focus:outline-none focus:border-hyu-blue">
-                        <button id="send-button" onclick="handleChatSubmit()" class="hyu-blue text-white py-2 px-4 ml-3 rounded-full font-bold hover:bg-opacity-90 transition">
+
+                        <input id="chat-input" type="text" 
+                            placeholder="궁금한 사항을 입력해주세요." 
+                            class="flex-grow p-3 border border-gray-300 rounded-full focus:outline-none focus:border-hyu-blue min-w-0">
+
+                        <button id="send-button" onclick="handleChatSubmit()" 
+                                class="flex-shrink-0 hyu-blue text-white py-2 px-4 rounded-full font-bold hover:bg-opacity-90 transition">
                             <i class="fa-solid fa-arrow-up"></i>
                         </button>
                     </div>
+
                 </div>
             `;
         }
@@ -1658,6 +1665,7 @@
     </script>
 </body>
 </html>
+
 
 
 
