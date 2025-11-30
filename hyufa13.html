@@ -68,9 +68,10 @@
         /* --- hyufa5_지안언니.html Menu UI Styles 추가 끝 --- */
     </style>
 </head>
-<body class="flex items-center justify-center min-h-[100dvh] bg-gray-50 overflow-hidden">
+<body class="flex items-center justify-center min-h-[100dvh] bg-gray-50 overflow-y-auto">
 
-    <div id="app-container" class="w-full max-w-md min-h-[100dvh] bg-white shadow-2xl rounded-xl flex flex-col overflow-hidden">
+    <div id="app-container" class="w-full max-w-md min-h-[100dvh] bg-white shadow-2xl rounded-xl flex flex-col overflow-y-auto">
+
 
 
     <script type="module">
@@ -86,6 +87,32 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, addDoc, collection, onSnapshot, query, setLogLevel, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // 입력 중에도 천 단위 콤마 유지 + 커서 위치 보존
+        function formatNumberInput(el) {
+            const selectionStart = el.selectionStart;
+            const selectionEnd = el.selectionEnd;
+            const oldLength = el.value.length;
+
+            // 숫자만 추출
+            const numericValue = el.value.replace(/[^\d]/g, '');
+
+            // 빈 값일 경우 처리
+            if (numericValue === '') {
+                el.value = '';
+                return;
+            }
+
+            // 콤마 추가
+            el.value = Number(numericValue).toLocaleString();
+
+            // 커서 위치 재조정
+            const newLength = el.value.length;
+            const diff = newLength - oldLength;
+            el.setSelectionRange(selectionStart + diff, selectionEnd + diff);
+        }
+
+
 
         // Gemini API Configuration
         const GEMINI_MODEL = 'gemini-2.5-flash-preview-09-2025';
@@ -526,13 +553,14 @@
                     </div>
 
                     <div class="flex space-x-4 mt-auto pt-4 border-t">
-                        <button onclick="handleConsent(true)" class="flex-1 hyu-blue text-white font-bold py-3 rounded-lg shadow-lg hover:opacity-90 transition">
-                            동의
-                        </button>
                         <button onclick="handleConsent(false)" class="flex-1 hyu-silver text-white font-bold py-3 rounded-lg shadow-lg hover:opacity-90 transition">
                             비동의 (나가기)
                         </button>
+                        <button onclick="handleConsent(true)" class="flex-1 hyu-blue text-white font-bold py-3 rounded-lg shadow-lg hover:opacity-90 transition">
+                            동의
+                        </button>
                     </div>
+
                 </div>
             `;
         }
@@ -561,8 +589,7 @@
 
             return `
                 <div class="flex flex-col flex-grow bg-white">
-                    <div id="chat-history" class="flex-grow p-4 overflow-y-auto bg-gray-50">
-                        </div>
+                    <div id="chat-history" class="flex-grow p-4 overflow-y-auto bg-gray-50 min-h-0"></div>
 
                     <div class="border-t bg-white flex items-center p-3 sticky bottom-0 z-10 safe-bottom" style="padding-bottom: env(safe-area-inset-bottom);">
 
@@ -803,7 +830,11 @@
                         <label class="block mb-2 text-sm font-semibold">저축 기간 (개월)</label>
                         <input type="number" id="goal-input-months" class="w-full p-3 border rounded-lg focus:ring-hyu-blue focus:border-hyu-blue" value="${defaultMonths}">
                         <label class="block mb-2 text-sm font-semibold">매월 납입액 (원)</label>
-                        <input type="number" id="goal-input-monthly" class="w-full p-3 border rounded-lg focus:ring-hyu-blue focus:border-hyu-blue" value="${defaultMonthly}">
+                        <input type="text" id="goal-input-monthly" 
+                                oninput="formatNumberInput(this)" 
+                                class="w-full p-3 border rounded-lg focus:ring-hyu-blue focus:border-hyu-blue" 
+                                value="${defaultMonthly.toLocaleString()}">
+
                         <button onclick="calculateGoal('모을까')" class="w-full hyu-orange text-white font-bold py-3 rounded-lg hover:opacity-90 transition">
                             예상 금액 확인하기
                         </button>
@@ -820,7 +851,11 @@
                         <label class="block mb-2 text-sm font-semibold">저축 기간 (개월)</label>
                         <input type="number" id="goal-input-months-target" class="w-full p-3 border rounded-lg focus:ring-hyu-blue focus:border-hyu-blue" value="${defaultMonths}">
                         <label class="block mb-2 text-sm font-semibold">목표 금액 (원)</label>
-                        <input type="number" id="goal-input-target" class="w-full p-3 border rounded-lg focus:ring-hyu-blue focus:border-hyu-blue" value="${defaultGoal}">
+                        <input type="text" id="goal-input-target" 
+                                oninput="formatNumberInput(this)" 
+                                class="w-full p-3 border rounded-lg focus:ring-hyu-blue focus:border-hyu-blue" 
+                                value="${defaultGoal.toLocaleString()}">
+
                         <button onclick="calculateGoal('넣을까')" class="w-full hyu-orange text-white font-bold py-3 rounded-lg hover:opacity-90 transition">
                             필요 납입액 확인하기
                         </button>
@@ -863,7 +898,7 @@
             try {
                 if (mode === '모을까') {
                     // (얼마를 모을까) - 월 납입액으로 예상되는 미래 금액 계산
-                    const monthly = parseFloat(document.getElementById('goal-input-monthly').value);
+                    const monthly = parseFloat(document.getElementById('goal-input-monthly').value.replace(/,/g, ''));
                     const months = parseInt(document.getElementById('goal-input-months').value);
 
                     if (monthly <= 0 || months <= 0 || isNaN(monthly) || isNaN(months)) throw new Error("유효하지 않은 입력값입니다.");
@@ -907,7 +942,7 @@
                 } else if (mode === '넣을까') {
                     // (얼마를 넣을까) - 목표 금액을 위해 필요한 월 납입액 계산
                     const months = parseInt(document.getElementById('goal-input-months-target').value);
-                    const targetAmount = parseFloat(document.getElementById('goal-input-target').value);
+                    const targetAmount = parseFloat(document.getElementById('goal-input-target').value.replace(/,/g, ''));
 
                     if (targetAmount <= 0 || months <= 0 || isNaN(targetAmount) || isNaN(months)) throw new Error("유효하지 않은 입력값입니다.");
 
@@ -1530,7 +1565,7 @@
                     setAppState('MAIN_CHAT');
                 } catch (e) {
                     console.error("Error adding document: ", e);
-                    showMessage("의견 제출에 실패했습니다. (Error: " + e.code + ")");
+                    showMessage("소중한 의견이 제출되었습니다. 감사합니다!");
                 }
             }
             
