@@ -14,6 +14,12 @@
             font-family: 'Noto Sans KR', sans-serif;
             background-color: #f3f4f6;
         }
+        @supports (padding: max(0px)) {
+        .safe-bottom {
+            padding-bottom: max(env(safe-area-inset-bottom), 1rem);
+        }
+        }
+
         /* HYU Color Palette */
         .hyu-blue { background-color: #0E4A84; }
         .text-hyu-blue { color: #0E4A84; }
@@ -62,9 +68,10 @@
         /* --- hyufa5_지안언니.html Menu UI Styles 추가 끝 --- */
     </style>
 </head>
-<body class="flex items-center justify-center">
+<body class="flex items-center justify-center min-h-[100dvh] bg-gray-50">
 
-    <div id="app-container" class="w-full max-w-md h-[90vh] bg-white shadow-2xl rounded-xl flex flex-col overflow-y-auto">
+    <div id="app-container" class="w-full max-w-md min-h-[100dvh] bg-white shadow-2xl rounded-xl flex flex-col overflow-hidden">
+
     </div>
 
     <script type="module">
@@ -558,7 +565,8 @@
                     <div id="chat-history" class="flex-grow p-4 overflow-y-auto bg-gray-50">
                         </div>
 
-                    <div class="p-4 border-t bg-white flex items-center">
+                    <div class="border-t bg-white flex items-center p-3 sticky bottom-0 z-10 safe-bottom" style="padding-bottom: env(safe-area-inset-bottom);">
+
                          <button onclick="setAppState('MENU')" class="text-hyu-blue text-3xl mr-3 hover:opacity-75 transition">
                             <i class="fa-solid fa-circle-plus"></i>
                         </button>
