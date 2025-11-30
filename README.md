@@ -46,27 +46,15 @@
 
 <div align="center">
 
-<a href="https://kangjul3854.github.io/hyufa/hyufa13.html" target="_blank" style="
-  display: inline-block;
-  padding: 14px 30px;
-  background: linear-gradient(135deg, #0E4A84 0%, #1E63B4 100%);
-  color: white;
-  font-weight: bold;
-  font-size: 18px;
-  border-radius: 12px;
-  text-decoration: none;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease;
-">
-💙 HYUFA 바로가기
+<a href="https://kangjul3854.github.io/hyufa/hyufa13.html" target="_blank">
+  <img src="https://img.shields.io/badge/HYUFA_실행하기-0E4A84?style=for-the-badge&logo=googlechrome&logoColor=white&labelColor=0E4A84&color=1E63B4" alt="HYUFA 실행하기 버튼">
 </a>
 
 <br><br>
 
-<p style="font-size: 16px; color: #555;">
-🎓 한양대학교 AI 금융 비서 HYUFA — 지금 바로 웹에서 만나보세요!
-</p>
-
+🎓 **한양대학교 AI 금융 비서 HYUFA**  
+💬 지금 바로 웹에서 만나보세요!
 </div>
+
 
 
