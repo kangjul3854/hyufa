@@ -879,6 +879,19 @@
                 }
             });
         }
+        const targetInput = document.getElementById("goal-input-target");
+        if (targetInput) {
+            targetInput.addEventListener("input", (e) => {
+                let value = e.target.value.replace(/,/g, "");
+                if (value === "") {
+                    e.target.value = "";
+                    return;
+                }
+                if (!isNaN(value)) {
+                    e.target.value = Number(value).toLocaleString();
+                }
+            });
+        }
         }
 
         /**
@@ -1645,5 +1658,6 @@
     </script>
 </body>
 </html>
+
 
 
