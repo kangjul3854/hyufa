@@ -1,0 +1,10 @@
+{
+  "saving": 0.03,
+  "nasdaq": 0.1479,
+  "gold": 0.09,
+  "meta": {
+    "nasdaq_next1m_hat": 0.0116,
+    "gold_next1m_hat": 0.0072,
+    "asof": "2025-11-30"
+  }
+}

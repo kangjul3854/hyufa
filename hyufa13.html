@@ -146,6 +146,33 @@
             },
         ];
 
+        // --- 기대수익률 JSON 로드해서 currentPortfolio.rate 덮어쓰기 ---
+        async function loadExpectedReturns() {
+            try {
+                const res = await fetch('./expected_returns.json', { cache: "no-store" });
+                if (!res.ok) throw new Error("returns json fetch failed");
+                const er = await res.json();
+
+                // saving / nasdaq / gold 값을 currentPortfolio에 주입
+                currentPortfolio = currentPortfolio.map(item => {
+                    if (item.name.includes("국내 배당주") || item.name.includes("적금")) {
+                        return { ...item, rate: er.saving ?? item.rate };
+                    }
+                    if (item.name.includes("미국 테크주") || item.name.includes("나스닥")) {
+                        return { ...item, rate: er.nasdaq ?? item.rate };
+                    }
+                    if (item.name.includes("금/원자재") || item.name.includes("금")) {
+                        return { ...item, rate: er.gold ?? item.rate };
+                    }
+                    return item;
+                });
+
+                console.log("✅ expected returns loaded:", er);
+            } catch (e) {
+                console.warn("expected_returns.json 로드 실패 → 기본 rate 유지", e);
+            }
+        }
+
         // 추가: Goal 계산 결과 저장 (포트폴리오 페이지에서 활용)
         let goalCalculationResult = null;
 
@@ -1535,11 +1562,17 @@
         // --- 6. Initialization ---
 
         window.onload = async () => {
-            // Wait for Firebase to initialize and sign in before rendering the initial state.
+            // 1) FAQ 데이터 로드
             await loadFAQData();
+
+            // 2) 기대수익률 JSON 로드해서 currentPortfolio.rate 업데이트
+            await loadExpectedReturns();
+            console.log("최종 currentPortfolio", currentPortfolio); 
+
+            // 3) Firebase 초기화
             await initializeFirebase();
 
-            // Check and set initial portfolio total for the editing screen if needed
+            // 4) 포트폴리오 편집 화면이면 총합계 표시
             if (appState === 'PORTFOLIO_EDIT') {
                 checkPortfolioTotal();
             }
