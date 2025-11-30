@@ -44,12 +44,14 @@
 
 ## 🚀 HYUFA 실행하기
 
-<p align="center">
-  <a href="https://kangjul3854.github.io/hyufa/hyufa13.html" target="_blank">
-    <img src="https://img.shields.io/badge/🔗%20HYUFA%20실행하기-%230E4A84?style=for-the-badge&logo=githubpages&logoColor=white" alt="HYUFA 실행하기">
-  </a>
-</p>
+<div align="center">
 
----
+<a href="https://kangjul3854.github.io/hyufa/hyufa13.html" target="_blank">
+  <img src="https://img.shields.io/badge/HYUFA_실행하기-0E4A84?style=for-the-badge&logo=github&logoColor=white&labelColor=0E4A84&color=7DB928">
+</a>
 
-> 💡 위 버튼을 클릭하면 실제 서비스 화면(hyufa13.html)로 이동합니다.
+<br><br>
+
+✨ 클릭하면 HYUFA 웹 서비스로 이동합니다 ✨  
+</div>
+
