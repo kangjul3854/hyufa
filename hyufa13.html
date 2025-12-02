@@ -147,7 +147,115 @@
         let db;
         let auth;
         let userId = null;
-        let chatHistory = [];
+        // ----------------------------------------------------------------------
+        // HYUFA Chatbot Topic Tree and Chat History Initialization
+        // ----------------------------------------------------------------------
+        // Define a hierarchical set of main topics, each with subtopics and example prompts.
+        const TOPIC_TREE = {
+            saving: {
+                mainLabel: '예·적금 / 목돈 모으기',
+                intro: '예·적금과 목돈 모으기 중 어떤 것이 궁금한가요?\n아래에서 더 구체적인 주제를 골라보세요.',
+                subOptions: [
+                    {
+                        label: '1억 모으기 전체 전략',
+                        prompt: '대학생이 1억을 최대한 빨리 모으고 싶을 때, 현실적인 전략과 단계별 계획을 알려줘.'
+                    },
+                    {
+                        label: '월별 저축액 계산법',
+                        prompt: '목표 금액과 기간이 정해졌을 때, 월별로 얼마나 저축해야 하는지 계산하는 방법과 예시를 알려줘.'
+                    },
+                    {
+                        label: '적금/예금 상품 선택 기준',
+                        prompt: '대학생/사회초년생 기준으로 적금·예금 상품을 고를 때 금리, 기간, 세금 등을 어떻게 비교해야 할지 알려줘.'
+                    }
+                ]
+            },
+            housing: {
+                mainLabel: '자취 / 월세·전세 / 보증금',
+                intro: '자취와 주거 비용 중 어떤 부분이 궁금한가요?\n아래에서 더 구체적인 주제를 골라보세요.',
+                subOptions: [
+                    {
+                        label: '월세 vs 전세 비교',
+                        prompt: '대학생 자취 기준에서 월세와 전세의 차이, 장단점, 어떤 상황에 무엇을 선택하면 좋을지 알려줘.'
+                    },
+                    {
+                        label: '보증금·관리비 숨은 비용',
+                        prompt: '원룸/오피스텔 계약 시 보증금, 관리비, 기타 숨은 비용이 어떻게 나오는지, 주의할 점을 알려줘.'
+                    },
+                    {
+                        label: '계약 전 체크리스트',
+                        prompt: '자취방 계약 전에 반드시 확인해야 할 체크리스트(하자, 옵션, 계약서 항목)를 정리해서 알려줘.'
+                    }
+                ]
+            },
+            card: {
+                mainLabel: '체크카드 · 신용카드 / 소비관리',
+                intro: '카드와 소비관리 중 어떤 것이 궁금한가요?\n아래에서 더 구체적인 주제를 골라보세요.',
+                subOptions: [
+                    {
+                        label: '체크 vs 신용카드 차이',
+                        prompt: '체크카드와 신용카드의 차이, 장단점, 사회초년생이 첫 카드를 고를 때 기준을 알려줘.'
+                    },
+                    {
+                        label: '카드 혜택·실적 설계',
+                        prompt: '대학생/사회초년생에게 맞는 카드 혜택(교통, 통신, 식비 등)과 월 실적 설계 방법을 알려줘.'
+                    },
+                    {
+                        label: '소비 패턴 점검하기',
+                        prompt: '이번 달 카드 명세서를 보고 소비 패턴을 점검하고, 불필요한 지출을 줄이는 방법을 알려줘.'
+                    }
+                ]
+            },
+            invest: {
+                mainLabel: '첫 투자 (주식 · ETF)',
+                intro: '투자를 처음 시작한다면, 아래에서 가장 궁금한 주제를 골라보세요.',
+                subOptions: [
+                    {
+                        label: '주식 vs ETF 기초',
+                        prompt: '주식과 ETF의 차이, 각각의 장단점, 초보자가 ETF부터 시작하는 이유를 설명해줘.'
+                    },
+                    {
+                        label: '위험 관리와 마이너스 방지',
+                        prompt: '투자 초보가 큰 손실을 피하기 위해 꼭 지켜야 할 원칙과 리스크 관리 방법을 알려줘.'
+                    },
+                    {
+                        label: '목표별 투자 전략',
+                        prompt: '3년, 5년, 10년 등 기간별로 어떤 투자 전략을 생각할 수 있는지, 대학생 기준으로 설명해줘.'
+                    }
+                ]
+            },
+            loan: {
+                mainLabel: '학자금대출 · 대출 · 신용점수',
+                intro: '대출과 신용점수 중 어떤 것이 궁금한가요?\n아래에서 더 구체적인 주제를 골라보세요.',
+                subOptions: [
+                    {
+                        label: '학자금 대출 구조 이해',
+                        prompt: '한국에서 학자금 대출이 어떻게 이자·상환이 진행되는지, 졸업 후 상환 전략까지 포함해서 설명해줘.'
+                    },
+                    {
+                        label: '신용점수 관리 기본',
+                        prompt: '20대가 신용점수를 지키기 위해 꼭 알아야 하는 기본 개념과 주의사항을 알려줘.'
+                    },
+                    {
+                        label: '대출 갚는 순서·전략',
+                        prompt: '여러 대출(학자금, 마이너스통장 등)이 있을 때, 어떤 순서와 기준으로 상환하면 좋은지 설명해줘.'
+                    }
+                ]
+            }
+        };
+
+        // Initialize chat history with welcome message and main topic options
+        let chatHistory = [
+            {
+                sender: 'ai',
+                text: '안녕하세요.\n인공지능 HYUFA입니다.\n무엇을 도와드릴까요?\n\n+ 아래 버튼을 눌러 궁금한 주제를 선택해보세요.',
+                options: Object.keys(TOPIC_TREE).map(key => ({
+                    kind: 'main',
+                    topicKey: key,
+                    label: TOPIC_TREE[key].mainLabel
+                }))
+            }
+        ];
         let faqData = [];
         let isChatLoading = false;
 
@@ -321,91 +429,118 @@
          * Calls the Gemini API for chat response.
          * @param {string} prompt The user's query.
          */
+        // ----------------------------------------------------------------------
+        // Core chat logic: askHYUFA handles only assistant responses.
+        // User messages should be added via sendUserMessage().
         async function askHYUFA(prompt) {
             if (isChatLoading) return;
-
-            // 1. Add user message to history
             const chatHistoryElement = document.getElementById('chat-history');
             if (!chatHistoryElement) return;
 
-            chatHistory.push({ sender: 'user', text: prompt });
-            renderChatHistory();
-
-            // 2. Add loading message
-            chatHistory.push({ sender: 'ai', text: '... 답변을 생성 중입니다.', loading: true });
+            // Add a loading placeholder for AI response
+            const loadingMessage = {
+                sender: 'ai',
+                text: '... 답변을 생성 중입니다.',
+                loading: true
+            };
+            chatHistory.push(loadingMessage);
             renderChatHistory();
             chatHistoryElement.scrollTop = chatHistoryElement.scrollHeight;
             isChatLoading = true;
 
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`;
+            let responseText = '죄송합니다. 서비스에 일시적인 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
 
-            // Prepare history for API call (excluding the temporary loading message)
-            const apiContents = chatHistory.slice(0, -1).map(msg => ({
-                role: msg.sender === 'user' ? 'user' : 'model',
-                parts: [{ text: msg.text }]
-            }));
-            
-            // Add the new user prompt
-            apiContents.push({
-                role: 'user',
-                parts: [{ text: prompt }]
-            });
-
-
-            const payload = {
-                contents: apiContents,
-                tools: [{ "google_search": {} }],
-                systemInstruction: {
-                    parts: [{ text: systemPrompt }]
-                },
-            };
-
-            // 3. API Call with Exponential Backoff
-            let responseText = "죄송합니다. 서비스에 일시적인 오류가 발생했습니다. 잠시 후 다시 시도해주세요.";
-            let retryCount = 0;
-            const maxRetries = 3;
-
-            while (retryCount < maxRetries) {
-                try {
-                    const response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (response.ok) {
-                        const result = await response.json();
-                        const candidate = result.candidates?.[0];
-                        if (candidate && candidate.content?.parts?.[0]?.text) {
-                            responseText = candidate.content.parts[0].text;
-                        } else {
-                            responseText = "답변을 생성하지 못했습니다. 다시 시도해주세요.";
-                        }
-                        break; // Success
+            try {
+                // Prepare history for backend (exclude loading message)
+                const historyForServer = chatHistory
+                    .filter(m => m !== loadingMessage && (m.sender === 'user' || m.sender === 'ai'))
+                    .map(m => ({
+                        role: m.sender === 'user' ? 'user' : 'assistant',
+                        text: m.text || ''
+                    }));
+                // Call backend /chat endpoint
+                const response = await fetch('http://localhost:3000/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        prompt,
+                        history: historyForServer
+                    })
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data && typeof data.reply === 'string') {
+                        responseText = data.reply;
                     } else {
-                        throw new Error(`API returned status ${response.status}`);
+                        console.error('Unexpected backend response:', data);
                     }
-                } catch (error) {
-                    console.error(`API Call failed (Attempt ${retryCount + 1}):`, error);
-                    retryCount++;
-                    if (retryCount < maxRetries) {
-                        const delay = Math.pow(2, retryCount) * 1000;
-                        await new Promise(resolve => setTimeout(resolve, delay));
-                    }
+                } else {
+                    const errText = await response.text();
+                    console.error('Backend error:', response.status, errText);
                 }
+            } catch (error) {
+                console.error('Error calling backend /chat:', error);
             }
 
-            // 4. Update history with final response
-            const loadingIndex = chatHistory.findIndex(msg => msg.loading);
-            if (loadingIndex !== -1) {
-                chatHistory.splice(loadingIndex, 1); // Remove loading message
+            // Replace loading message with AI response
+            const idx = chatHistory.indexOf(loadingMessage);
+            if (idx !== -1) {
+                chatHistory.splice(idx, 1);
             }
             chatHistory.push({ sender: 'ai', text: responseText });
             isChatLoading = false;
-
             renderChatHistory();
             chatHistoryElement.scrollTop = chatHistoryElement.scrollHeight;
         }
+
+        /**
+         * Push a user message into chat history, render it, and trigger HYUFA response.
+         * This function centralizes handling of user messages from both text input and buttons.
+         * @param {string} prompt The user's query or selected prompt.
+         */
+        function sendUserMessage(prompt) {
+            const chatHistoryElement = document.getElementById('chat-history');
+            if (!chatHistoryElement) return;
+            // Add the user's message to chat history
+            chatHistory.push({ sender: 'user', text: prompt });
+            renderChatHistory();
+            chatHistoryElement.scrollTop = chatHistoryElement.scrollHeight;
+            // Ask HYUFA for a response
+            askHYUFA(prompt);
+        }
+
+        /**
+         * Handle option button clicks. Depending on the kind and topic key, this function either
+         * reveals subtopic options or sends a user message directly. Exposed globally via window.
+         * @param {string} kind The kind of option: 'main' or 'sub'.
+         * @param {string} topicKey The key of the topic in TOPIC_TREE when kind is 'main'.
+         * @param {string} prompt The prompt associated with a sub-topic option.
+         */
+        window.handleOptionClick = function(kind, topicKey, prompt) {
+            const chatHistoryElement = document.getElementById('chat-history');
+            if (!chatHistoryElement) return;
+            // If main topic selected, show its subOptions
+            if (kind === 'main' && topicKey && TOPIC_TREE[topicKey]) {
+                const topic = TOPIC_TREE[topicKey];
+                chatHistory.push({
+                    sender: 'ai',
+                    text: topic.intro,
+                    options: topic.subOptions.map(sub => ({
+                        kind: 'sub',
+                        topicKey,
+                        label: sub.label,
+                        prompt: sub.prompt
+                    }))
+                });
+                renderChatHistory();
+                chatHistoryElement.scrollTop = chatHistoryElement.scrollHeight;
+                return;
+            }
+            // If sub-topic selected or direct prompt provided, send user message
+            if (prompt) {
+                sendUserMessage(prompt);
+            }
+        };
 
 
         // --- 5. View Rendering Logic ---
@@ -416,19 +551,34 @@
         function renderChatHistory() {
             const historyDiv = document.getElementById('chat-history');
             if (!historyDiv) return;
-            historyDiv.innerHTML = chatHistory.map(msg => `
-                <div class="flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'} mb-4">
-                    <div class="max-w-xs sm:max-w-sm lg:max-w-md p-3 rounded-xl shadow-md ${
-                        // 수정: 사용자 메시지 (user)의 배경을 흰색/옅은 회색, 텍스트를 검정색(text-gray-800)으로 변경
-                        msg.sender === 'user'
-                            ? 'bg-gray-200 text-gray-800 rounded-br-none'
-                            : 'bg-gray-100 text-gray-800 rounded-tl-none'
-                    }">
-                        ${msg.loading ? '<i class="fa-solid fa-spinner fa-spin-pulse mr-2"></i>' : ''}
-                        <p class="whitespace-pre-wrap">${msg.text}</p>
+            historyDiv.innerHTML = chatHistory.map(msg => {
+                const isUser = msg.sender === 'user';
+                // Determine bubble classes for user vs AI
+                const bubbleClasses = isUser
+                    ? 'bg-gray-200 text-gray-800 rounded-br-none'
+                    : 'bg-gray-100 text-gray-800 rounded-tl-none';
+                // Build options HTML if present
+                let optionsHtml = '';
+                if (msg.options && msg.options.length > 0) {
+                    optionsHtml = '<div class="mt-3 flex flex-wrap gap-2">' +
+                        msg.options.map(opt => {
+                            // Compose onclick call with proper escaping
+                            const kind = opt.kind || '';
+                            const topicKey = opt.topicKey || '';
+                            const prompt = opt.prompt ? opt.prompt.replace(/'/g, "\\'") : '';
+                            return `<button class="px-3 py-1.5 text-xs rounded-full border border-hyu-blue text-hyu-blue bg-white hover:bg-blue-50" onclick="handleOptionClick('${kind}','${topicKey}','${prompt}')">${opt.label}</button>`;
+                        }).join('') + '</div>';
+                }
+                return `
+                    <div class="flex ${isUser ? 'justify-end' : 'justify-start'} mb-4">
+                        <div class="max-w-xs sm:max-w-sm lg:max-w-md p-3 rounded-xl shadow-md ${bubbleClasses}">
+                            ${msg.loading ? '<i class="fa-solid fa-spinner fa-spin-pulse mr-2"></i>' : ''}
+                            <p class="whitespace-pre-wrap text-sm">${msg.text}</p>
+                            ${optionsHtml}
+                        </div>
                     </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
 
@@ -614,14 +764,16 @@
         }
 
         /**
-         * Handle chat input submission (Enter or Send button).
+         * Handle chat input submission (Enter key or Send button).
+         * Instead of calling askHYUFA directly, we push the user message
+         * and then request a response from the backend via askHYUFA.
          */
         function handleChatSubmit() {
             const input = document.getElementById('chat-input');
             const prompt = input.value.trim();
             if (prompt && !isChatLoading) {
                 input.value = '';
-                askHYUFA(prompt);
+                sendUserMessage(prompt);
             }
         }
 

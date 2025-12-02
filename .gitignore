@@ -1,0 +1,3 @@
+backend/node_modules/
+backend/key.env
+backend/.env
