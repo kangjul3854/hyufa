@@ -1,13 +1,13 @@
 # 💣 HYUFA — 원화가치 계속 떨어지는데, 돈관리 언제할거야?
-> 💣 HYUFA — KRW is falling. If you don't learn finance now, when will you?
+> 💣 KRW is falling. If you don't learn finance now, when will you?
 > 대학생을 위한 AI 금융 멘토 챗봇.
 > A student-friendly AI financial mentor.
 
-# 💸 HYUFA — AI Personal Finance Mentor for Students
-
-> **“월말마다 통장 잔고 보고 멘붕 오는 대학생을 위해.”**  
+> 💸 ** HYUFA — AI Personal Finance Mentor for Students **
+> **“떨어지는 원화 가치에 재테크의 필요성을 느끼는 사람들을 위해.”**
 > HYUFA는 대학생과 사회초년생을 위한 **AI 기반 금융 멘토링 웹앱**입니다.  
-> 지출 습관과 목표만 입력하면, **맞춤 예산·포트폴리오·금융 해설**을 제공합니다.  
+> 지출 습관과 목표만 입력하면, **맞춤 예산·포트폴리오·금융 해설**을 제공합니다.
+> 현재는 화폐가치 폭락 1위인 한국어만 제공하고 있지만 향후 더 많은 언어로 챗봇을 제공할 수 있습니다.
 
 > **"For students who panic at their bank balance every month."**  
 > **HYUFA** is an **AI-powered finance mentor web app** designed for university students and young professionals.  
