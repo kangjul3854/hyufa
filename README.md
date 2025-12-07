@@ -19,7 +19,7 @@
 
 <div align="center">
 
-<a href="https://kangjul3854.github.io/hyufa/hyufa13.html" target="_blank" style="text-decoration: none;">
+<a href="https://kangjul3854.github.io/hyufa/" target="_blank" style="text-decoration: none;">
   <img src="https://img.shields.io/badge/💙%20Launch_HYUFA-0E4A84?style=for-the-badge&logo=googlechrome&logoColor=white&labelColor=0E4A84&color=1E63B4" alt="HYUFA 실행 버튼">
 </a>
 
