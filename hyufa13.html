@@ -143,7 +143,8 @@
 
         // Application State
         // **수정: 새로운 상태 GOAL_SETTING, PORTFOLIO_EDIT 추가**
-        let appState = 'LOADING'; // WELCOME, CONSENT, MAIN_CHAT, MENU, GUIDE, FAQ, GOAL_SETTING, PORTFOLIO, PORTFOLIO_EDIT, CALCULATOR, CUSTOMER_CENTER, FEEDBACK
+        let appState = 'LOADING';
+        let selectedLanguage = localStorage.getItem('hyufa_language') || 'ko'; // WELCOME, CONSENT, MAIN_CHAT, MENU, GUIDE, FAQ, GOAL_SETTING, PORTFOLIO, PORTFOLIO_EDIT, CALCULATOR, CUSTOMER_CENTER, FEEDBACK
         let db;
         let auth;
         let userId = null;
@@ -464,7 +465,8 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         prompt,
-                        history: historyForServer
+                        history: historyForServer,
+                        language: selectedLanguage
                     })
                 });
                 if (response.ok) {
@@ -736,9 +738,16 @@
             // Expose handleChatSubmit to global scope
             window.handleChatSubmit = handleChatSubmit;
             window.setAppState = setAppState;
+            window.setLanguage = setLanguage;
 
             return `
             <div class="flex flex-col bg-white h-screen">
+            <div class="p-3 border-b bg-white flex justify-end">
+                <select id="language-select" onchange="setLanguage(this.value)" class="border rounded px-2 py-1 text-sm">
+                    <option value="ko" ${selectedLanguage === 'ko' ? 'selected' : ''}>한국어</option>
+                    <option value="en" ${selectedLanguage === 'en' ? 'selected' : ''}>English</option>
+                </select>
+            </div>
             <div id="chat-history" class="flex-1 p-4 overflow-y-auto bg-gray-50 pb-24">
                 <!-- 채팅 메시지들 -->
             </div>
@@ -772,6 +781,13 @@
          * Instead of calling askHYUFA directly, we push the user message
          * and then request a response from the backend via askHYUFA.
          */
+
+        function setLanguage(lang) {
+            selectedLanguage = lang;
+            localStorage.setItem('hyufa_language', lang);
+            showMessage(lang === 'en' ? 'Language switched to English.' : '언어가 한국어로 변경되었습니다.');
+        }
+
         function handleChatSubmit() {
             const input = document.getElementById('chat-input');
             const prompt = input.value.trim();
